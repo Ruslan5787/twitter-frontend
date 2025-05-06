@@ -10,6 +10,7 @@ export const UserPage = () => {
       <UserPost
         likes={1200}
         replies={481}
+        userAvatar="../public/zuck-avatar.png"
         postImg={"../public/post1.png"}
         postTitle={"Let's talk about Threads."}
       />

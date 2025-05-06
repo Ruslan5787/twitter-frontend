@@ -1,5 +1,5 @@
-import { Avatar } from "@chakra-ui/avatar";
 import { toaster } from "../components/ui/toaster";
+import { Avatar } from "@chakra-ui/avatar"
 import {
   Box,
   Flex,
@@ -10,7 +10,6 @@ import {
   Portal,
   Button,
   Link,
-  // Avatar
 } from "@chakra-ui/react";
 import React from "react";
 import { BsInstagram } from "react-icons/bs";
@@ -45,8 +44,8 @@ const UserHeader = () => {
           <Text fontSize={"lg"}></Text>
         </Box>
         <Box>
-          <Avatar name="Mark Zuckerberg" src="./zuck-avatar.png" size="xl"/>
-        </Box>
+          <Avatar name="Mark Zuckerberg" src="./zuck-avatar.png" w="140" h="140" borderRadius="50%" />
+        </Box> 
       </Flex>
 
       <Text>Co-founder, executive chairman and CEO of Meta Platforms.</Text>

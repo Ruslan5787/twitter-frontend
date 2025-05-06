@@ -1,9 +1,7 @@
 import {
   defineConfig,
   createSystem,
-  defaultBaseConfig,
   defineTextStyles,
-  defaultSystem,
   defaultConfig,
 } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";

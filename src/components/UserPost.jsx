@@ -9,54 +9,65 @@ import {
 } from "@chakra-ui/react";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
-import { TbMessageCircle } from "react-icons/tb";
-import { FiRefreshCw } from "react-icons/fi";
-import { IoPaperPlaneOutline } from "react-icons/io5";
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Actions } from "./Actions";
 
-export const UserPost = ({ likes, replies, postImg, postTitle }) => {
+export const UserPost = ({
+  likes,
+  replies,
+  userAvatar,
+  postImg,
+  postTitle,
+  isLeftBarVisible,
+}) => {
   const [liked, setLiked] = useState(false);
 
   return (
     <Link to={"/markzuckerberg/post/1"}>
       <Flex gap={3} mb={4} my={5} width={"full"}>
-        <Flex
-          mr={2}
-          flexDirection={"column"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
-          <Avatar.Root size={"md"}>
-            <Avatar.Fallback name="Segun Adebayo" />
-            <Avatar.Image src="../public/zuck-avatar.png" />
-          </Avatar.Root>
-          <Box h={"full"} w={"1px"} bg={"gray"}></Box>
-          <AvatarGroup gap="0" spaceX="-3" size="xs" position={"relative"}>
-            <Avatar.Root position={"absolute"} left={"-13px"} top={"10px"}>
-              <Avatar.Fallback name="Uchiha Sasuke" />
-              <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/9/131317.webp?s=d4b03c7291407bde303bc0758047f6bd" />
+        {isLeftBarVisible && (
+          <Flex
+            mr={2}
+            flexDirection={"column"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Avatar.Root>
+              <Avatar.Fallback name="Segun Adebayo" />
+              <Avatar.Image src={userAvatar} />
             </Avatar.Root>
+            <Box h={"full"} w={"1px"} bg={"gray"}></Box>
+            <AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
+              <Avatar.Root position={"absolute"} left={"-13px"} top={"10px"}>
+                <Avatar.Fallback name="Uchiha Sasuke" />
+                <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/9/131317.webp?s=d4b03c7291407bde303bc0758047f6bd" />
+              </Avatar.Root>
 
-            <Avatar.Root position={"absolute"} left={"10px"}>
-              <Avatar.Fallback name="Baki Ani" />
-              <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/7/284129.webp?s=a8998bf668767de58b33740886ca571c" />
-            </Avatar.Root>
+              <Avatar.Root position={"absolute"} left={"10px"}>
+                <Avatar.Fallback name="Baki Ani" />
+                <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/7/284129.webp?s=a8998bf668767de58b33740886ca571c" />
+              </Avatar.Root>
 
-            <Avatar.Root position={"absolute"} right={"-5px"}>
-              <Avatar.Fallback name="Uchiha Chan" />
-              <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/9/105421.webp?s=269ff1b2bb9abe3ac1bc443d3a76e863" />
-            </Avatar.Root>
-          </AvatarGroup>
-        </Flex>
+              <Avatar.Root position={"absolute"} right={"-5px"}>
+                <Avatar.Fallback name="Uchiha Chan" />
+                <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/9/105421.webp?s=269ff1b2bb9abe3ac1bc443d3a76e863" />
+              </Avatar.Root>
+            </AvatarGroup>
+          </Flex>
+        )}
 
-        <Box>
+        <Box flex={1}>
           <Flex justifyContent={"space-between"} w={"full"}>
             <Box mb={2}>
-              <Flex mb={2} alignItems={"center"}>
+              <Flex mb={2} alignItems={"center"} textAlign={"center"}>
+                {!isLeftBarVisible && (
+                  <Avatar.Root size="xl" mr={5}>
+                    <Avatar.Fallback name="Segun Adebayo" />
+                    <Avatar.Image src={userAvatar} />
+                  </Avatar.Root>
+                )}
                 <Text fontWeight={"bold"} mr={2}>
                   markzuckerberg
                 </Text>
@@ -77,13 +88,22 @@ export const UserPost = ({ likes, replies, postImg, postTitle }) => {
 
           {postImg && (
             <Box
+              maxW={570}
+              maxH={320}
+              w="full"
+              h="full"
               mb={5}
               borderRadius={6}
               overflow={"hidden"}
               border={"1px solid"}
-              borderColor={"light.gray"}
+              borderColor={"gray.dark"}
             >
-              <Image src={postImg} />
+              <Image
+                w="full"
+                h="full"
+                objectFit="cover"
+                src={"../../public/zuck-avatar.png"}
+              />
             </Box>
           )}
 
