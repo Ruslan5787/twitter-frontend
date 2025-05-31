@@ -1,125 +1,129 @@
 import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Text,
-  Image,
-  AvatarGroup,
+    Avatar, Box, Button, Flex, Text, Image, AvatarGroup,
 } from "@chakra-ui/react";
-import { BsFillPatchCheckFill } from "react-icons/bs";
-import { BsThreeDots } from "react-icons/bs";
+import {BsFillPatchCheckFill} from "react-icons/bs";
+import {BsThreeDots} from "react-icons/bs";
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Actions } from "./Actions";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {Actions} from "./Actions";
+import {useRecoilValue} from "recoil";
+import userAtom from "../atoms/userAtom.js";
+import {formatDistanceToNow} from "date-fns";
+import {AvatarsCommentedUsers} from "./AvatarsCommentedUsers.jsx";
+import useShowToast from "../hooks/useShowToast.js";
 
-export const UserPost = ({
-  likes,
-  replies,
-  userAvatar,
-  postImg,
-  postTitle,
-  isLeftBarVisible,
-}) => {
-  const [liked, setLiked] = useState(false);
 
-  return (
-    <Link to={"/markzuckerberg/post/1"}>
-      <Flex gap={3} mb={4} my={5} width={"full"}>
-        {isLeftBarVisible && (
-          <Flex
-            mr={2}
-            flexDirection={"column"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Avatar.Root>
-              <Avatar.Fallback name="Segun Adebayo" />
-              <Avatar.Image src={userAvatar} />
-            </Avatar.Root>
-            <Box h={"full"} w={"1px"} bg={"gray"}></Box>
-            <AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
-              <Avatar.Root position={"absolute"} left={"-13px"} top={"10px"}>
-                <Avatar.Fallback name="Uchiha Sasuke" />
-                <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/9/131317.webp?s=d4b03c7291407bde303bc0758047f6bd" />
-              </Avatar.Root>
+export const UserPost = ({ postId, userAvatar}) => {
+    const user = useRecoilValue(userAtom);
+    const [post, setPost] = useState(null)
+    const [liked, setLiked] = useState(null);
+    const [countLikes, setCountLikes] = useState(0);
+    const [countReplies, setCountReplies] = useState(0);
+    const showToast = useShowToast();
 
-              <Avatar.Root position={"absolute"} left={"10px"}>
-                <Avatar.Fallback name="Baki Ani" />
-                <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/7/284129.webp?s=a8998bf668767de58b33740886ca571c" />
-              </Avatar.Root>
+    useEffect(() => {
+        const getPost = async () => {
+            try {
+                const res = await fetch(`/api/posts/${postId}`)
+                const data = await res.json();
 
-              <Avatar.Root position={"absolute"} right={"-5px"}>
-                <Avatar.Fallback name="Uchiha Chan" />
-                <Avatar.Image src="https://cdn.myanimelist.net/r/84x124/images/characters/9/105421.webp?s=269ff1b2bb9abe3ac1bc443d3a76e863" />
-              </Avatar.Root>
-            </AvatarGroup>
-          </Flex>
-        )}
+                if(data.error) {
+                    showToast("Ошибка", data.error, "error");
+                    return;
+                }
 
-        <Box flex={1}>
-          <Flex justifyContent={"space-between"} w={"full"}>
-            <Box mb={2}>
-              <Flex mb={2} alignItems={"center"} textAlign={"center"}>
-                {!isLeftBarVisible && (
-                  <Avatar.Root size="xl" mr={5}>
-                    <Avatar.Fallback name="Segun Adebayo" />
-                    <Avatar.Image src={userAvatar} />
-                  </Avatar.Root>
-                )}
-                <Text fontWeight={"bold"} mr={2}>
-                  markzuckerberg
-                </Text>
-                <BsFillPatchCheckFill color="#3D90D7" />
-              </Flex>
-              <Text fontWeight={"light"}>{postTitle}</Text>
-            </Box>
+                setPost(data);
 
-            <Flex>
-              <Text color={"gray.light"} fontWeight={"light"} mr={2}>
-                1d
-              </Text>
-              <Button variant={"plain"} height={"23px"}>
-                <BsThreeDots />
-              </Button>
-            </Flex>
-          </Flex>
+                if (data.likes.includes(user._id)) {
+                    setLiked(true)
+                }
 
-          {postImg && (
-            <Box
-              maxW={570}
-              maxH={320}
-              w="full"
-              h="full"
-              mb={5}
-              borderRadius={6}
-              overflow={"hidden"}
-              border={"1px solid"}
-              borderColor={"gray.dark"}
+                setCountLikes(data.likes.length);
+                setCountReplies(data.replies.length);
+            }catch (e) {
+                showToast("Ошибка", e.message, "error");
+            }
+        }
+
+        getPost();
+    }, [countReplies]);
+
+    if (!post?.text) return null;
+
+    return (
+        <Flex gap={3} mb={4} my={5} width={"full"}>
+            <Flex
+                position="relative"
+                mr={5}
+                flexDirection={"column"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
             >
-              <Image
-                w="full"
-                h="full"
-                objectFit="cover"
-                src={"../../public/zuck-avatar.png"}
-              />
+                <Avatar.Root>
+                    <Avatar.Fallback name="Segun Adebayo"/>
+                    <Avatar.Image src={userAvatar}/>
+                </Avatar.Root>
+                <Box h={"full"} w={"1px"} bg={"gray"}></Box>
+                {<AvatarsCommentedUsers replies={post.replies} countCommentedUsers={countReplies}/>}
+            </Flex>
+
+            <Box flex={1}>
+                <Flex justifyContent={"space-between"} w={"full"}>
+                    <Box mb={2}>
+                        <Link to={`/${user?.username}/post/${post?._id}`}>
+                            <Flex mb={2} alignItems={"center"} textAlign={"center"}>
+                                <Text fonWeight={"bold"} mr={2}>{user?.username}</Text>
+                                <BsFillPatchCheckFill color="#3D90D7"/>
+                            </Flex>
+                        </Link>
+
+                        <Text fontWeight={"light"} whiteSpace={"pre-wrap"} wordBreak="break-all">{post?.text}</Text>
+                    </Box>
+
+                    <Flex>
+                        <Text color={"gray.light"} fontWeight={"light"} mr={2}>
+                            {formatDistanceToNow(new Date(post?.createdAt))} назад
+                        </Text>
+                        <Button variant={"plain"} height={"23px"}>
+                            <BsThreeDots/>
+                        </Button>
+                    </Flex>
+                </Flex>
+
+                {post?.img && (<Box
+                    maxW={570}
+                    maxH={320}
+                    w="full"
+                    h="full"
+                    mb={5}
+                    borderRadius={6}
+                    overflow={"hidden"}
+                    border={"1px solid"}
+                    borderColor={"gray.dark"}
+                >
+                    <Image
+                        w="full"
+                        h="full"
+                        objectFit="cover"
+                        src={post?.img}
+                    />
+                </Box>)}
+
+                <Actions postId={post._id} liked={liked}
+                         setLiked={setLiked} countLikes={countLikes}
+                         setCountLikes={setCountLikes} setCountReplies={setCountReplies}/>
+
+                <Flex gap={3} mt={3} alignItems={"center"}>
+                    <Text color={"gray.light"} fontSize={"sm"} fontWeight={"light"}>
+                        {countReplies} комментариев
+                    </Text>
+                    <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
+                    <Text color={"gray.light"} fontSize={"sm"} fontWeight={"light"}>
+                        {countLikes} лайков
+                    </Text>
+                </Flex>
             </Box>
-          )}
-
-          <Actions liked={liked} setLiked={setLiked} />
-
-          <Flex gap={3} mt={3} alignItems={"center"}>
-            <Text color={"gray.light"} fontSize={"sm"} fontWeight={"light"}>
-              {replies} replies
-            </Text>
-            <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-            <Text color={"gray.light"} fontSize={"sm"} fontWeight={"light"}>
-              {likes} likes
-            </Text>
-          </Flex>
-        </Box>
-      </Flex>
-    </Link>
-  );
+        </Flex>
+    );
 };

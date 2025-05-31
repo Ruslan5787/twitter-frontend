@@ -9,3 +9,8 @@
 .icon-container:hover {
     background-color: #343333;
 }
+
+.user-post-link {
+    color: #325671;
+    text-decoration: underline;
+}

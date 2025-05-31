@@ -1,5 +1,5 @@
 import { toaster } from "../components/ui/toaster";
-import { Avatar } from "@chakra-ui/avatar"
+import { Avatar } from "@chakra-ui/avatar";
 import {
   Box,
   Flex,
@@ -11,12 +11,21 @@ import {
   Button,
   Link,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { BsInstagram } from "react-icons/bs";
 import { CiCircleMore } from "react-icons/ci";
+import useShowToast from "../hooks/useShowToast.js";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom.js";
+import { Link as RouterLink } from "react-router-dom";
 
-const UserHeader = () => {
-
+const UserHeader = ({ user }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
+  const showToast = useShowToast();
+  const currentUser = useRecoilValue(userAtom);
+  const [isFollow, setFollow] = useState(
+    user.followers?.includes(currentUser?._id)
+  );
   const copyURL = () => {
     toaster.create({
       description: "Ссылка скопирована",
@@ -24,38 +33,105 @@ const UserHeader = () => {
     });
   };
 
+  const followAndFollowHandle = async () => {
+    if(!currentUser) {
+      showToast("Ошибка", "Please login to follow", "error")
+    }
+
+    try {
+      setIsUpdating(true);
+
+      const res = await fetch(`api/users/follow/${user._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Tupe": "application/json",
+        }
+      })
+      const data = await res.json(res.data);
+      if(data.error) {
+        showToast("Ошибка", data.error, "error")
+
+      }
+
+      if(isFollow){
+        showToast("Уведомление", `Вы отписались от ${user.name}`, "success")
+        user.followers.pop(currentUser._id);
+      } else {
+        showToast("Уведомление", `Вы подписались на ${user.name}`, "success")
+        user.followers.push(currentUser._id);
+      }
+
+      setFollow(!isFollow)
+      setIsUpdating(false);
+    } catch (error) {
+      showToast("Error", error.message, "error")
+    }
+  };
+
   return (
     <VStack gap={4} alignItems={"start"} mb={5}>
       <Flex justifyContent={"space-between"} w={"full"}>
         <Box>
-          <Text fontSize={"2xl"}>Mark Zuckerberg</Text>
-          <Flex gap={2} alignItems={"center"}>
-            <Text fontSize={"sm"}>markzuckerberg</Text>
-            <Text
-              fontSize={"xs"}
-              bg={"gray.dark"}
-              color="gray.light"
-              p={1}
-              borderRadius={"full"}
-            >
-              threads.net
-            </Text>
+          <Text fontSize={"2xl"} m="0 0 20px 0">
+            {user.name}
+          </Text>
+          <Flex gap={2} alignItems={"center"} margin="0 0 30px 0">
+            <Text fontSize={"sm"}>{user.username}</Text>
           </Flex>
-          <Text fontSize={"lg"}></Text>
+          <Text fontSize={"lg"}>{user.bio}</Text>
+
+          {currentUser?._id === user._id && (
+            <Link as={RouterLink} to="/update">
+              <Button size={"sm"}>Обновить профиль</Button>
+            </Link>
+          )}
+
+          {currentUser?._id !== user._id && isFollow && (
+            <Button onClick={followAndFollowHandle} size={"sm"} loading={isUpdating}>
+              Отписаться
+            </Button>
+          )}
+
+          {currentUser?._id !== user._id && !isFollow && (
+            <Button onClick={followAndFollowHandle} size={"sm"} isLoading={isUpdating}>
+              Подписаться
+            </Button>
+          )}
         </Box>
         <Box>
-          <Avatar name="Mark Zuckerberg" src="./zuck-avatar.png" w="140" h="140" borderRadius="50%" />
-        </Box> 
+          {user.profilePic && (
+            <Avatar
+                size={"xs"}
+              name={user.name}
+              src={user.profilePic}
+              w={140}
+              h={140}
+              borderRadius="100%"
+            />
+          )}
+
+          {!user.profilePic && (
+            <Avatar
+              name={user.name}
+              src="https://bit.ly/broken-link"
+              w={140}
+              h={140}
+              borderRadius="50%"
+            />
+          )}
+        </Box>
       </Flex>
 
-      <Text>Co-founder, executive chairman and CEO of Meta Platforms.</Text>
+      <Text>{user.bio}</Text>
 
       <Flex justifyContent={"space-between"} w={"full"} mb={10}>
         <Flex gap={2} alignItems={"center"}>
-          <Text color={"gray.light"}>3.2K followers</Text>
+          <Text color={"gray.light"}>{user.followers?.length} followers</Text>
           <Box w={1} h={1} bg={"gray.light"} borderRadius={"full"}></Box>
           <Text color={"gray.light"}>
-            <Link color={"gray.light"} textDecoration={"none"}>instagram.com</Link>
+            <Link color={"gray.light"} textDecoration={"none"}>
+              instagram.com
+            </Link>
           </Text>
         </Flex>
         <Flex>
@@ -65,7 +141,7 @@ const UserHeader = () => {
 
           <Menu.Root>
             <Menu.Trigger asChild ml={3}>
-              <Box className="icon-container" >
+              <Box className="icon-container">
                 <CiCircleMore size={24} cursor={"pointer"} />
               </Box>
             </Menu.Trigger>
