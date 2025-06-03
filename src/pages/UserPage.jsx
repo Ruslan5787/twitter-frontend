@@ -12,6 +12,7 @@ export const UserPage = ({ isPostCreated }) => {
     const showToast = useShowToast();
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([])
+    const [postsCount, setPostsCount] = useState(0)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,13 +33,15 @@ export const UserPage = ({ isPostCreated }) => {
                     showToast("Error", postsData.error, "error");
                 }
                 setPosts(postsData);
+                setPostsCount(postsData.length);
             } catch (error) {
                 showToast("Error", error, "error");
             }
+            setIsLoading(false)
         }
 
         fetchData()
-    }, [username, showToast, isPostCreated]);
+    }, [username, postsCount, isPostCreated, showToast]);
 
     if (!user && isLoading) {
         return <Flex m={"20px 0 0 0"} justifyContent={"center"}>
@@ -52,11 +55,11 @@ export const UserPage = ({ isPostCreated }) => {
 
     return (
         <Flex flexDirection={"column"} gap={5}>
-            {/*<Toaster/>*/}
+            <Toaster/>
             <UserHeader user={user}/>
 
             {posts.length > 0 && posts.map((post) => (
-                <UserPost key={post._id} postId={post._id} userAvatar={user?.profilePic}/>
+                <UserPost key={post._id} postId={post._id} userAvatar={user?.profilePic} setPostsCount={setPostsCount}/>
             ))}
         </Flex>
     )

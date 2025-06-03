@@ -1,26 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {
-    Box,
-    Flex,
-    Avatar,
-    Button,
-    Text,
-    Image,
-    Separator,
-    Link
-} from "@chakra-ui/react";
+import {Avatar, Box, Button, Flex, Image, Separator, Text} from "@chakra-ui/react";
 import {BsFillPatchCheckFill, BsThreeDots} from "react-icons/bs";
 import {Actions} from "../components/Actions.jsx";
 import {Comment} from "../components/Comment.jsx";
 import {data, useParams} from "react-router-dom";
 import useShowToast from "../hooks/useShowToast.js";
 import {Toaster} from "../components/ui/toaster.jsx";
-import {
-    formatDistanceToNow,
-} from "date-fns";
+import {formatDistanceToNow,} from "date-fns";
 import parse from 'html-react-parser';
 import {useRecoilState} from "recoil";
 import userAtom from "../atoms/userAtom.js";
+import {getShortedLink} from "../helpers.js";
 
 const PostPage = () => {
     const {pid} = useParams();
@@ -53,14 +43,7 @@ const PostPage = () => {
 
                 setPost(postData);
 
-                const re = /([^\"=]{2}|^)((https?|ftp):\/\/\S+[^\s.,> )\];'\"!?])/;
-                const subst = '$1<a href="$2" target="_blank" class="user-post-link">Ссылка</a>';
-
-                for (let i = 0; i < postData.text.length; i++) {
-                    if(postData.text[i] === "/" && postData.text[i+1] === "/") {
-                        postData.text = postData.text.replace(re, subst);
-                    }
-                }
+                getShortedLink(postData.link)
 
                 const userResponse = await fetch(`/api/users/profile/${postData.postedBy}`, {
                     method: "GET",
@@ -106,7 +89,8 @@ const PostPage = () => {
                         </Text>
                         <BsFillPatchCheckFill color="#3D90D7"/>
                     </Flex>
-                    <Text fontWeight={"light"} whiteSpace={"pre-wrap"} wordBreak="break-all">{post && parse(post?.text)}</Text>
+                    <Text fontWeight={"light"} whiteSpace={"pre-wrap"}
+                          wordBreak="break-all">{post && parse(post?.text)}</Text>
                 </Box>
 
                 <Flex>

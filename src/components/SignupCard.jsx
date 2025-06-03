@@ -1,6 +1,6 @@
 import {FormControl, FormLabel} from "@chakra-ui/form-control";
 import {InputGroup, InputRightElement,} from "@chakra-ui/input";
-import {Toaster} from "../components/ui/toaster.jsx";
+import {Toaster} from "./ui/toaster.jsx";
 import {FaEyeSlash} from "react-icons/fa";
 import {IoEyeSharp} from "react-icons/io5";
 

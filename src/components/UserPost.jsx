@@ -1,8 +1,5 @@
-import {
-    Avatar, Box, Button, Flex, Text, Image, AvatarGroup,
-} from "@chakra-ui/react";
-import {BsFillPatchCheckFill} from "react-icons/bs";
-import {BsThreeDots} from "react-icons/bs";
+import {Avatar, Box, Button, Flex, Image, Menu, Portal, Text} from "@chakra-ui/react";
+import {BsFillPatchCheckFill, BsThreeDots} from "react-icons/bs";
 
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
@@ -13,8 +10,7 @@ import {formatDistanceToNow} from "date-fns";
 import {AvatarsCommentedUsers} from "./AvatarsCommentedUsers.jsx";
 import useShowToast from "../hooks/useShowToast.js";
 
-
-export const UserPost = ({ postId, userAvatar}) => {
+export const UserPost = ({postId, userAvatar, setPostsCount}) => {
     const user = useRecoilValue(userAtom);
     const [post, setPost] = useState(null)
     const [liked, setLiked] = useState(null);
@@ -22,13 +18,38 @@ export const UserPost = ({ postId, userAvatar}) => {
     const [countReplies, setCountReplies] = useState(0);
     const showToast = useShowToast();
 
+    const handleDeletePost = async () => {
+        try {
+            const res = await fetch(`/api/posts/${post._id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({postedBy: post.postedBy}),
+            })
+            const data = await res.json();
+
+            if (data.error) {
+                showToast("Ошибка", data.error, "error");
+                return;
+            }
+            setPostsCount(prev => {
+                return prev - 1
+            })
+
+            showToast("Успех", data.message, "success");
+        } catch (e) {
+            showToast("Ошибка", e.message, "error")
+        }
+    }
+
     useEffect(() => {
         const getPost = async () => {
             try {
                 const res = await fetch(`/api/posts/${postId}`)
                 const data = await res.json();
 
-                if(data.error) {
+                if (data.error) {
                     showToast("Ошибка", data.error, "error");
                     return;
                 }
@@ -41,7 +62,7 @@ export const UserPost = ({ postId, userAvatar}) => {
 
                 setCountLikes(data.likes.length);
                 setCountReplies(data.replies.length);
-            }catch (e) {
+            } catch (e) {
                 showToast("Ошибка", e.message, "error");
             }
         }
@@ -61,7 +82,7 @@ export const UserPost = ({ postId, userAvatar}) => {
                 alignItems={"center"}
             >
                 <Avatar.Root>
-                    <Avatar.Fallback name="Segun Adebayo"/>
+                    <Avatar.Fallback name={name}/>
                     <Avatar.Image src={userAvatar}/>
                 </Avatar.Root>
                 <Box h={"full"} w={"1px"} bg={"gray"}></Box>
@@ -85,9 +106,27 @@ export const UserPost = ({ postId, userAvatar}) => {
                         <Text color={"gray.light"} fontWeight={"light"} mr={2}>
                             {formatDistanceToNow(new Date(post?.createdAt))} назад
                         </Text>
-                        <Button variant={"plain"} height={"23px"}>
-                            <BsThreeDots/>
-                        </Button>
+                        <Menu.Root>
+                            <Menu.Trigger asChild>
+                                <Button variant={"plain"} height={"23px"}>
+                                    <BsThreeDots/>
+                                </Button>
+                            </Menu.Trigger>
+                            <Portal>
+                                <Menu.Positioner>
+                                    <Menu.Content>
+                                        <Menu.Item
+                                            onClick={handleDeletePost}
+                                            value="delete"
+                                            color="fg.error"
+                                            _hover={{bg: "bg.error", color: "fg.error"}}
+                                        >
+                                            Удалить...
+                                        </Menu.Item>
+                                    </Menu.Content>
+                                </Menu.Positioner>
+                            </Portal>
+                        </Menu.Root>
                     </Flex>
                 </Flex>
 

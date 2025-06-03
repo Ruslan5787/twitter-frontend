@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from "react";
-import {Avatar, AvatarGroup, Box, Button, Flex, Image, Text} from "@chakra-ui/react";
-import {BsFillPatchCheckFill, BsThreeDots} from "react-icons/bs";
-import {Actions} from "../components/Actions.jsx";
+import {Avatar, Box, Flex, Image, Text} from "@chakra-ui/react";
+import {BsFillPatchCheckFill} from "react-icons/bs";
+import {Actions} from "./Actions.jsx";
 import {Link} from "react-router-dom";
 import useShowToast from "../hooks/useShowToast.js";
 import {Toaster} from "./ui/toaster.jsx";
 import {useRecoilState} from "recoil";
 import userAtom from "../atoms/userAtom.js";
 import {formatDistanceToNow} from "date-fns";
+import {AvatarsCommentedUsers} from "./AvatarsCommentedUsers.jsx";
+import {getShortedLink} from "../helpers.js";
+import parse from "html-react-parser"
 
 export const Post = ({postInfo, postedBy}) => {
-    const [postedPostUser, setPostedPostUser] = useState();
+    const [postedPostUser, setPostedPostUser] = useState(null);
     const showToast = useShowToast();
-    const [user, setUser] = useRecoilState(userAtom);
+    const [user] = useRecoilState(userAtom);
     const [liked, setLiked] = useState(postInfo.likes.includes(user._id));
     const [countLikes, setCountLikes] = useState(postInfo.likes.length);
     const [countReplies, setCountReplies] = useState(postInfo.replies.length);
@@ -27,15 +30,18 @@ export const Post = ({postInfo, postedBy}) => {
                     },
                 });
 
+                if (response.error) {
+                    showToast("Ошибка", "Не удалось получить данные о авторе поста", "error");
+                }
+
                 const data = await response.json();
 
                 setPostedPostUser(data);
 
-                if (response.error) {
-                    showToast("Ошибка", "Не удалось получить данные о авторе поста");
-                }
+                if (postInfo.text !== null) postInfo.text = getShortedLink(postInfo.text);
             } catch (error) {
-                showToast("Ошибка", "Не удалось получить данные о авторе поста");
+                showToast("Ошибка", error.message, "error");
+                showToast("Ошибка", "Не удалось получить данные о авторе поста", "error");
                 setPostedPostUser(null);
             }
         };
@@ -49,6 +55,7 @@ export const Post = ({postInfo, postedBy}) => {
         <Box>
             <Flex gap={3} my={5} mb={20} width={"full"}>
                 <Flex
+                    position="relative"
                     mr={5}
                     flexDirection={"column"}
                     justifyContent={"space-between"}
@@ -63,49 +70,7 @@ export const Post = ({postInfo, postedBy}) => {
                     </Link>
                     <Box h={"full"} w={"1px"} bg={"gray"}></Box>
 
-                    {postInfo.replies.length === 0 && (
-                        <Text textAlign={"center"}>👨‍🌾</Text>
-                    )}
-
-                    {/*{postInfo.replies[0] && (*/}
-                    {/*    <AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>*/}
-                    {/*        <Avatar.Root position={"absolute"} left={"-13px"} top={"10px"}>*/}
-                    {/*            <Avatar.Fallback name="Uchiha Sasuke"/>*/}
-                    {/*            <Avatar.Image src={postInfo.replies[0]?.profilePic}/>*/}
-                    {/*        </Avatar.Root>*/}
-                    {/*    </AvatarGroup>*/}
-                    {/*)}*/}
-
-                    {/*{postInfo.replies[1] && (*/}
-                    {/*    <AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>*/}
-                    {/*        <Avatar.Root position={"absolute"} left={"-13px"} top={"10px"}>*/}
-                    {/*            <Avatar.Fallback name="Uchiha Sasuke"/>*/}
-                    {/*            <Avatar.Image src={postInfo.replies[0]?.profilePic}/>*/}
-                    {/*        </Avatar.Root>*/}
-                    {/*        <Avatar.Root position={"absolute"} left={"-13px"} top={"10px"}>*/}
-                    {/*            <Avatar.Fallback name="Uchiha Sasuke"/>*/}
-                    {/*            <Avatar.Image src={postInfo.replies[1]?.profilePic}/>*/}
-                    {/*        </Avatar.Root>*/}
-                    {/*    </AvatarGroup>*/}
-                    {/*)}*/}
-
-                    {postInfo.replies[3] && (
-                        <AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
-                            <Avatar.Root position={"absolute"} left={"-13px"} top={"10px"}>
-                                <Avatar.Fallback name="Uchiha Sasuke"/>
-                                <Avatar.Image src={postInfo.replies[0]?.profilePic}/>
-                            </Avatar.Root>
-                            <Avatar.Root position={"absolute"} left={"10px"}>
-                                <Avatar.Fallback name="Uchiha Sasuke"/>
-                                <Avatar.Image src={postInfo.replies[1]?.profilePic}/>
-                            </Avatar.Root>
-                            <Avatar.Root position={"absolute"} right={"-5px"}>
-                                <Avatar.Fallback name="Uchiha Sasuke"/>
-                                <Avatar.Image src={postInfo.replies[2]?.profilePic}/>
-                            </Avatar.Root>
-
-                        </AvatarGroup>
-                    )}
+                    {<AvatarsCommentedUsers replies={postInfo.replies} countCommentedUsers={countReplies}/>}
                 </Flex>
 
                 <Box flex={1}>
@@ -120,16 +85,13 @@ export const Post = ({postInfo, postedBy}) => {
                                 <BsFillPatchCheckFill color="#3D90D7"/>
                             </Flex>
                             <Text fontWeight={"light"} whiteSpace={"pre-wrap"}
-                                  wordBreak="break-all">{postInfo.text}</Text>
+                                  wordBreak="break-all">{postInfo && parse(postInfo?.text)}</Text>
                         </Box>
 
                         <Flex>
                             <Text color={"gray.light"} fontWeight={"light"} mr={2} fontSize={13}>
                                 {formatDistanceToNow(new Date(postInfo.createdAt))} назад
                             </Text>
-                            <Button variant={"plain"} height={"23px"}>
-                                <BsThreeDots/>
-                            </Button>
                         </Flex>
                     </Flex>
 

@@ -31,8 +31,7 @@ const UpdateProfilePage = () => {
         if (user.profilePic) {
             setUserSourceImg(user.profilePic);
         }
-
-    }, [])
+    }, [user.profilePic])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
