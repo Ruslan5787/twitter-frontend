@@ -29,7 +29,6 @@ const MAX_CHAR = 500;
 
 export const UserPage = ({isPostCreated, setIsPostCreated}) => {
     const userMain = useRecoilValue(userAtom);
-    console.log(userMain.username)
     const [user, setUser] = useState(null);
     const {username} = useParams();
     const showToast = useShowToast();
@@ -43,7 +42,6 @@ export const UserPage = ({isPostCreated, setIsPostCreated}) => {
     const [isOpen, setIsOpen] = useState(false);
     const dialog = useDialog({open: isOpen, setOpenChange: setIsOpen});
     const backgroung = useColorMode("gray.300", "gray.dark")
-    const [isMainUser, setIsMainUser] = useState(false);
 
     const handleTextChange = (e) => {
         const inputText = e.target.value;
@@ -88,13 +86,14 @@ export const UserPage = ({isPostCreated, setIsPostCreated}) => {
         const fetchData = async () => {
             try {
                 const userResponse = await fetch(`/api/users/profile/${username}`);
+
                 const userData = await userResponse.json();
                 if (userData.error) {
                     showToast("Error", userData.error, "error");
                 }
                 setUser(userData);
+                console.log("user data", userData);
                 const postsResponse = await fetch(`/api/posts/user_all/${userData._id}`);
-                setIsMainUser(userData.username === username)
                 const postsData = await postsResponse.json();
 
                 if (postsData.error) {
@@ -120,7 +119,7 @@ export const UserPage = ({isPostCreated, setIsPostCreated}) => {
     if (user.error && !isLoading) {
         return <h1>Пользователь не найден</h1>
     }
-    console.log(user.username)
+
     return (
         <Flex flexDirection={"column"} gap={5}>
             <Toaster/>
@@ -210,7 +209,8 @@ export const UserPage = ({isPostCreated, setIsPostCreated}) => {
             )}
 
             {posts.length > 0 && posts.map((post) => (
-                <UserPost key={post._id} postId={post._id} userAvatar={user?.profilePic} setPostsCount={setPostsCount}/>
+                <UserPost key={post._id} postAuthor={user} postId={post._id} userAvatar={user?.profilePic}
+                          setPostsCount={setPostsCount}/>
             ))}
         </Flex>
     )

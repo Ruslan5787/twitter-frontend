@@ -4,10 +4,12 @@ import userAtom from "../atoms/userAtom.js";
 import useShowToast from "../hooks/useShowToast.js";
 import {Button} from '@chakra-ui/react';
 import {IoIosLogOut} from "react-icons/io";
+import {useNavigate} from "react-router-dom";
 
 const LogoutButton = () => {
     const setUser = useSetRecoilState(userAtom);
     const showToast = useShowToast();
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
@@ -18,13 +20,14 @@ const LogoutButton = () => {
                 },
             });
             const data = (await res).json();
-            console.log(data);
+
             if (data.error) {
                 showToast("Error", data.error, "error")
                 return;
             }
             setUser(null);
             localStorage.removeItem("user-threads");
+            navigate("/auth")
         } catch (error) {
             showToast("Error", error, "error")
         }

@@ -42,8 +42,8 @@ const PostPage = () => {
                 }
 
                 setPost(postData);
-
-                getShortedLink(postData.link)
+                getShortedLink(postData.text)
+                console.log("start")
 
                 const userResponse = await fetch(`/api/users/profile/${postData.postedBy}`, {
                     method: "GET",
@@ -51,7 +51,7 @@ const PostPage = () => {
                         "Content-Type": "application/json",
                     },
                 })
-
+                console.log("end")
                 const userData = await userResponse.json();
 
                 if (userData.error) {
@@ -60,6 +60,7 @@ const PostPage = () => {
 
                 setPostPostedUser(userData);
 
+                console.log(postData);
                 setCountLikes(postData.likes.length)
                 setCountReplies(postData.replies.length)
                 setLiked(postData.likes.includes(user?._id))
@@ -67,7 +68,6 @@ const PostPage = () => {
                 showToast("Ошибка", error.message, "error");
             } finally {
                 setIsLoading(false);
-                console.log('e')
             }
         }
 

@@ -10,8 +10,8 @@ import {formatDistanceToNow} from "date-fns";
 import {AvatarsCommentedUsers} from "./AvatarsCommentedUsers.jsx";
 import useShowToast from "../hooks/useShowToast.js";
 
-export const UserPost = ({postId, userAvatar, setPostsCount}) => {
-    const user = useRecoilValue(userAtom);
+export const UserPost = ({postId, userAvatar, setPostsCount, postAuthor}) => {
+    const authUser = useRecoilValue(userAtom);
     const [post, setPost] = useState(null)
     const [liked, setLiked] = useState(null);
     const [countLikes, setCountLikes] = useState(0);
@@ -56,7 +56,7 @@ export const UserPost = ({postId, userAvatar, setPostsCount}) => {
 
                 setPost(data);
 
-                if (data.likes.includes(user._id)) {
+                if (data.likes.includes(authUser._id)) {
                     setLiked(true)
                 }
 
@@ -86,15 +86,16 @@ export const UserPost = ({postId, userAvatar, setPostsCount}) => {
                     <Avatar.Image src={userAvatar}/>
                 </Avatar.Root>
                 <Box h={"full"} w={"1px"} bg={"gray"}></Box>
-                {<AvatarsCommentedUsers replies={post.replies} countCommentedUsers={countReplies}/>}
+
+                <AvatarsCommentedUsers replies={post.replies} countCommentedUsers={countReplies}/>
             </Flex>
 
             <Box flex={1}>
                 <Flex justifyContent={"space-between"} w={"full"}>
                     <Box mb={2}>
-                        <Link to={`/${user?.username}/post/${post?._id}`}>
+                        <Link to={`/${authUser?.username}/post/${post?._id}`}>
                             <Flex mb={2} alignItems={"center"} textAlign={"center"}>
-                                <Text fonWeight={"bold"} mr={2}>{user?.username}</Text>
+                                <Text fonWeight={"bold"} mr={2}>{postAuthor?.username}</Text>
                                 <BsFillPatchCheckFill color="#3D90D7"/>
                             </Flex>
                         </Link>

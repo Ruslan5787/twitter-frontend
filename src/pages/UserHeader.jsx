@@ -22,6 +22,8 @@ const UserHeader = ({user}) => {
         });
     };
 
+    console.log("user data", user);
+
     const followAndFollowHandle = async () => {
         if (!currentUser) {
             showToast("Ошибка", "Please login to follow", "error")
@@ -101,6 +103,7 @@ const UserHeader = ({user}) => {
 
                     {!user.profilePic && (
                         <Avatar
+                            border={"1px solid #ccc"}
                             name={user.name}
                             src="https://bit.ly/broken-link"
                             w={140}
