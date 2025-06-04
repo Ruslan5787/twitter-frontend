@@ -27,6 +27,7 @@ export default function SignupCard() {
 
     const handleSignup = async () => {
         try {
+            console.log(inputs)
             const res = await fetch("/api/users/signup", {
                 method: "POST",
                 headers: {
@@ -34,6 +35,8 @@ export default function SignupCard() {
                 },
                 body: JSON.stringify(inputs),
             });
+
+            console.log(res.cookie)
 
             const data = await res.json();
 

@@ -2,7 +2,6 @@ import {Avatar, AvatarGroup, Box} from "@chakra-ui/react";
 import React from "react";
 
 export const AvatarsCommentedUsers = ({replies, countCommentedUsers}) => {
-    console.log(replies, countCommentedUsers);
     if (countCommentedUsers > 2) {
         return (<AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
             <Avatar.Root key={replies[0]?._id} position={"absolute"} left={"-15px"} top={"3"}>
@@ -30,14 +29,12 @@ export const AvatarsCommentedUsers = ({replies, countCommentedUsers}) => {
             </Avatar.Root>
         </AvatarGroup>)
     } else if (countCommentedUsers > 0) {
-        return (
-            <AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
+        return (<AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
                 <Avatar.Root key={replies[0]?._id} position={"absolute"} left={"-16px"} top={"-9px"}>
                     <Avatar.Fallback name={replies[0]?.username}/>
                     <Avatar.Image src={replies[0]?.profilePic}/>
                 </Avatar.Root>
-            </AvatarGroup>
-        )
+        </AvatarGroup>)
     }
 
     return <Box w={"5px"} h={"5px"} background={"gray"} borderRadius={"100%"} position={"absolute"} bottom={"0px"}

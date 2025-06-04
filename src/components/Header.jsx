@@ -1,7 +1,7 @@
-import {Box, Button, Text, Flex, Image} from "@chakra-ui/react";
+import {Box, Flex, Image, Text} from "@chakra-ui/react";
 import {useColorMode} from "./ui/color-mode";
+import {FiMessageCircle} from "react-icons/fi";
 import React from "react";
-import {Toaster} from "./ui/toaster.jsx";
 import {IoIosHome} from "react-icons/io";
 import {FaUserCircle} from "react-icons/fa";
 import {Link} from "react-router-dom";
@@ -11,6 +11,7 @@ import userAtom from "../atoms/userAtom.js";
 const Header = () => {
     const {colorMode, toggleColorMode} = useColorMode();
     const user = useRecoilValue(userAtom);
+
     return (
         <Flex
             justifyContent={"space-between"}
@@ -34,12 +35,21 @@ const Header = () => {
                 onClick={toggleColorMode}
             />
 
+            <Flex>
+                <Box mr={7}>
+                    {user && (
+                        <Link to={`/chat`}>
+                            <FiMessageCircle size={24}/>
+                        </Link>
+                    )}
+                </Box>
 
             {user && (
                 <Link to={`/${user.username}`}>
                     <FaUserCircle size={24}/>
                 </Link>
             )}
+            </Flex>
 
             {!user && (
                 <Link to={"/auth"}>

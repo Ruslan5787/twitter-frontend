@@ -2,7 +2,6 @@ import {toaster} from "../components/ui/toaster";
 import {Avatar} from "@chakra-ui/avatar";
 import {Box, Button, Flex, Link, Menu, Portal, Text, VStack,} from "@chakra-ui/react";
 import React, {useState} from "react";
-import {BsInstagram} from "react-icons/bs";
 import {CiCircleMore} from "react-icons/ci";
 import useShowToast from "../hooks/useShowToast.js";
 import {useRecoilValue} from "recoil";
@@ -22,8 +21,6 @@ const UserHeader = ({user}) => {
             type: "success",
         });
     };
-
-    console.log(user)
 
     const followAndFollowHandle = async () => {
         if (!currentUser) {
@@ -116,19 +113,9 @@ const UserHeader = ({user}) => {
 
             <Flex justifyContent={"space-between"} w={"full"} mb={10}>
                 <Flex gap={2} alignItems={"center"}>
-                    <Text color={"gray.light"}>{user.followers?.length} followers</Text>
-                    <Box w={1} h={1} bg={"gray.light"} borderRadius={"full"}></Box>
-                    <Text color={"gray.light"}>
-                        <Link color={"gray.light"} textDecoration={"none"}>
-                            instagram.com
-                        </Link>
-                    </Text>
+                    <Text color={"gray.light"}>{user.followers?.length} подписчиков</Text>
                 </Flex>
                 <Flex>
-                    <Box className="icon-container">
-                        <BsInstagram size={24} cursor={"pointer"}/>
-                    </Box>
-
                     <Menu.Root>
                         <Menu.Trigger asChild ml={3}>
                             <Box className="icon-container">
@@ -156,17 +143,7 @@ const UserHeader = ({user}) => {
                     pb={"3"}
                     cursor={"pointer"}
                 >
-                    <Text fontWeight={"bold"}>Threads</Text>
-                </Flex>
-                <Flex
-                    flex={1}
-                    borderBottom={"1.5px solid gray"}
-                    justifyContent={"center"}
-                    pb={"3"}
-                    cursor={"pointer"}
-                    color={"gray.light"}
-                >
-                    <Text fontWeight={"bold"}>Replies</Text>
+                    <Text fontWeight={"bold"}>Посты</Text>
                 </Flex>
             </Flex>
         </VStack>
