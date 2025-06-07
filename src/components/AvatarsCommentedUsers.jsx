@@ -6,33 +6,33 @@ export const AvatarsCommentedUsers = ({replies, countCommentedUsers}) => {
         return (<AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
             <Avatar.Root key={replies[0]?._id} position={"absolute"} left={"-15px"} top={"3"}>
                 <Avatar.Fallback name={replies[0]?.username}/>
-                <Avatar.Image src={`${replies[0]?.profilePic}`}/>
+                <Avatar.Image src={`${replies[0]?.userProfilePic}`}/>
             </Avatar.Root>
             <Avatar.Root key={replies[1]?._id} position={"absolute"} left={"-25px"} top={"-9px"}>
                 <Avatar.Fallback name={replies[1]?.username}/>
-                <Avatar.Image src={`${replies[1]?.profilePic}`}/>
+                <Avatar.Image src={`${replies[1]?.userProfilePic}`}/>
             </Avatar.Root>
             <Avatar.Root key={replies[2]?._id} position={"absolute"} left={"0"} top={"-9px"}>
                 <Avatar.Fallback name={replies[2]?.username}/>
-                <Avatar.Image src={`${replies[2]?.profilePic}`}/>
+                <Avatar.Image src={`${replies[2]?.userProfilePic}`}/>
             </Avatar.Root>
         </AvatarGroup>)
     } else if (countCommentedUsers > 1) {
         return (<AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
             <Avatar.Root key={replies[0]?._id} position={"absolute"} left={"-25px"} top={"-9px"}>
                 <Avatar.Fallback name={replies[0]?.username}/>
-                <Avatar.Image src={`${replies[0]?.profilePic}`}/>
+                <Avatar.Image src={`${replies[0]?.userProfilePic}`}/>
             </Avatar.Root>
             <Avatar.Root key={replies[1]?._id} position={"absolute"} left={"0px"} top={"-9px"}>
                 <Avatar.Fallback name={replies[1]?.username}/>
-                <Avatar.Image src={`${replies[1]?.profilePic}`}/>
+                <Avatar.Image src={`${replies[1]?.userProfilePic}`}/>
             </Avatar.Root>
         </AvatarGroup>)
     } else if (countCommentedUsers > 0) {
         return (<AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
                 <Avatar.Root key={replies[0]?._id} position={"absolute"} left={"-16px"} top={"-9px"}>
                     <Avatar.Fallback name={replies[0]?.username}/>
-                    <Avatar.Image src={replies[0]?.profilePic}/>
+                    <Avatar.Image src={replies[0]?.userProfilePic}/>
                 </Avatar.Root>
         </AvatarGroup>)
     }

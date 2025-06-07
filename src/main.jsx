@@ -12,7 +12,7 @@ import {RecoilRoot} from "recoil";
 createRoot(document.getElementById("root")).render(
     <RecoilRoot>
         <BrowserRouter>
-            <ChakraProvider value={system}>
+            <ChakraProvider resetCSS value={system}>
                 <ThemeProvider attribute="class" disableTransitionOnChange>
                     <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
                     <App/>

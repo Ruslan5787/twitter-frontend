@@ -59,7 +59,7 @@ export const UserPost = ({postId, userAvatar, setPostsCount, postAuthor}) => {
                 if (data.likes.includes(authUser._id)) {
                     setLiked(true)
                 }
-
+                console.log(data.replies)
                 setCountLikes(data.likes.length);
                 setCountReplies(data.replies.length);
             } catch (e) {

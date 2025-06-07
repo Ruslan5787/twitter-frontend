@@ -20,6 +20,7 @@
     "@chakra-ui/theme-utils": "^2.0.21",
     "@emotion/react": "^11.14.0",
     "buffer": "^6.0.3",
+    "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "html-react-parser": "^5.2.5",
     "mongodb": "^6.16.0",

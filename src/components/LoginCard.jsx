@@ -18,8 +18,8 @@ export default function LoginCard() {
     const setAuthScreenState = useSetRecoilState(authScreenAtom);
     const [showPassword, setShowPassword] = useState(false);
     const [inputs, setInputs] = useState({
-        username: "",
-        password: "",
+        username: "Kiril Mihalev",
+        password: "1",
     });
     const [isLoading, setIsLoading] = useState(false);
 

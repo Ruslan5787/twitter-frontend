@@ -88,12 +88,13 @@ export const UserPage = ({isPostCreated, setIsPostCreated}) => {
                 const userResponse = await fetch(`/api/users/profile/${username}`);
 
                 const userData = await userResponse.json();
+                console.log(userData)
                 if (userData.error) {
                     showToast("Error", userData.error, "error");
                 }
                 setUser(userData);
                 console.log("user data", userData);
-                const postsResponse = await fetch(`/api/posts/user_all/${userData._id}`);
+                const postsResponse = await fetch(`/api/posts/user/${userData.username}`);
                 const postsData = await postsResponse.json();
 
                 if (postsData.error) {
@@ -125,13 +126,13 @@ export const UserPage = ({isPostCreated, setIsPostCreated}) => {
             <Toaster/>
             <UserHeader user={user}/>
 
-            {posts.length === 0 && username !== userMain.username && (
+            {posts.length === 0 && username !== userMain?.username && (
                 <Box textAlign="center">
                     <Text>У пользователя пока что нет постов</Text>
                 </Box>
             )}
 
-            {posts.length === 0 && username === userMain.username && (
+            {posts.length === 0 && username === userMain?.username && (
 
                 <Box mt={4} textAlign={"center"}>
                     <Text mb={7}>У вас пока нет постов. Вы можете их создать.</Text>

@@ -6,7 +6,7 @@ import {CiCircleMore} from "react-icons/ci";
 import useShowToast from "../hooks/useShowToast.js";
 import {useRecoilValue} from "recoil";
 import userAtom from "../atoms/userAtom.js";
-import {Link as RouterLink} from "react-router-dom";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 
 const UserHeader = ({user}) => {
     const [isUpdating, setIsUpdating] = useState(false);
@@ -15,6 +15,7 @@ const UserHeader = ({user}) => {
     const [isFollow, setFollow] = useState(
         user.followers?.includes(currentUser?._id)
     );
+    const navigate = useNavigate();
     const copyURL = () => {
         toaster.create({
             description: "Ссылка скопирована",
@@ -22,7 +23,9 @@ const UserHeader = ({user}) => {
         });
     };
 
-    console.log("user data", user);
+    const startTexting = () => {
+        navigate(`/chat/${user._id}`);
+    }
 
     const followAndFollowHandle = async () => {
         if (!currentUser) {
@@ -84,10 +87,19 @@ const UserHeader = ({user}) => {
                     )}
 
                     {currentUser?._id !== user._id && !isFollow && (
-                        <Button onClick={followAndFollowHandle} size={"sm"} isLoading={isUpdating}>
-                            Подписаться
+                        <Flex>
+                            <Button mr={5} onClick={followAndFollowHandle} size={"sm"} isLoading={isUpdating}>
+                                Подписаться
+                            </Button>
+                        </Flex>
+                    )}
+
+                    {currentUser?._id !== user._id && (
+                        <Button onClick={startTexting} size={"sm"} isLoading={isUpdating}>
+                            Написать
                         </Button>
                     )}
+
                 </Box>
                 <Box>
                     {user.profilePic && (
@@ -150,7 +162,8 @@ const UserHeader = ({user}) => {
                 </Flex>
             </Flex>
         </VStack>
-    );
+    )
+        ;
 };
 
 export default UserHeader;

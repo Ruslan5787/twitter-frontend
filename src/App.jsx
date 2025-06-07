@@ -13,15 +13,11 @@ import LogoutButton from "./components/LogoutButton.jsx";
 import UpdateProfilePage from "./pages/UpdateProfilePage.jsx";
 import CreatePost from "./components/CreatePost.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
+import SearchUsersPage from "./pages/SearchUsersPage.jsx";
 
 function App() {
     const user = useRecoilValue(userAtom);
     const [isPostCreated, setIsPostCreated] = useState(0)
-
-    // const socket = socketIOClient("http://localhost:27017");
-    // const handleClick = () => {
-    //     socket.emit("connect1", "bbstay hard");
-    // }
 
     return (
         <Container maxW="620px" margin={"0 auto"} textStyle="body">
@@ -30,11 +26,12 @@ function App() {
                 <Route path="/" element={user ? <HomePage/> : <Navigate to="/auth"/>}/>
                 <Route path="/auth" element={!user ? <AuthPage/> : <Navigate to="/"/>}/>
                 <Route path="/update" element={user ? <UpdateProfilePage/> : <Navigate to="/"/>}/>
-
+                <Route path="/searchuser" element={<SearchUsersPage/>}/>
                 <Route path="/:username"
                        element={<UserPage setIsPostCreated={setIsPostCreated} isPostCreated={isPostCreated}/>}/>
                 <Route path="/:username/post/:pid" element={<PostPage/>}/>
                 <Route path="/chat" element={<ChatPage/>}/>
+                <Route path="/chat/:recipientId" element={<ChatPage/>}/>
             </Routes>
 
             {user && <LogoutButton/>}

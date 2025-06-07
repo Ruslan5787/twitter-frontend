@@ -7,6 +7,7 @@ import {FaUserCircle} from "react-icons/fa";
 import {Link} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import userAtom from "../atoms/userAtom.js";
+import { TiUserAdd } from "react-icons/ti";
 
 const Header = () => {
     const {colorMode, toggleColorMode} = useColorMode();
@@ -38,6 +39,14 @@ const Header = () => {
             <Flex>
                 <Box mr={7}>
                     {user && (
+                        <Link to={`/searchuser`}>
+                            <TiUserAdd size={24}/>
+                        </Link>
+                    )}
+                </Box>
+
+                <Box mr={7}>
+                    {user && (
                         <Link to={`/chat`}>
                             <FiMessageCircle size={24}/>
                         </Link>
@@ -50,12 +59,6 @@ const Header = () => {
                 </Link>
             )}
             </Flex>
-
-            {!user && (
-                <Link to={"/auth"}>
-                    <Text textAlign={"center"}>Зарегистрироваться/Войти</Text>
-                </Link>
-            )}
         </Flex>
     );
 };

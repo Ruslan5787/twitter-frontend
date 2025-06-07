@@ -26,7 +26,7 @@ export const Actions = ({liked, setLiked, postId, countLikes, setCountLikes, set
         try {
             const res = await fetch(`/api/posts/reply/${postId}`,
                 {
-                    method: "POST",
+                    method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
                     },

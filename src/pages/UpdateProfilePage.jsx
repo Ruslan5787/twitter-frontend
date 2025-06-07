@@ -97,7 +97,7 @@ const UpdateProfilePage = () => {
                             </Center>
                             <Center flex={"1"}>
                                 <Button width={"80%"} onClick={() => fileRef.current.click()}>
-                                    Change Avatar
+                                    Изменить аватарку
                                 </Button>
                                 <Input
                                     type="file"
@@ -124,7 +124,7 @@ const UpdateProfilePage = () => {
                             placeholder={"мариналюбимка"}
                             value={inputs.username}
                             onChange={(e) =>
-                                setInputs({...inputs, surename: e.target.value})
+                                setInputs({...inputs, username: e.target.value})
                             }
                             _placeholder={{color: "gray.500"}}
                             type="text"
@@ -141,7 +141,7 @@ const UpdateProfilePage = () => {
                         />
                     </FormControl>
                     <FormControl id="password" isRequired>
-                        <FormLabel>Пол</FormLabel>
+                        <FormLabel>О себе</FormLabel>
                         <Input
                             value={inputs.bio}
                             onChange={(e) => setInputs({...inputs, bio: e.target.value})}

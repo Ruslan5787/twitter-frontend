@@ -19,15 +19,14 @@ export default function SignupCard() {
     const setUser = useSetRecoilState(userAtom);
 
     const [inputs, setInputs] = useState({
-        name: "",
-        username: "",
-        email: "",
-        password: "",
+        name: "ruslan",
+        username: "ruslan",
+        email: "ruslan@gmail.com",
+        password: "1",
     });
 
     const handleSignup = async () => {
         try {
-            console.log(inputs)
             const res = await fetch("/api/users/signup", {
                 method: "POST",
                 headers: {
@@ -36,8 +35,6 @@ export default function SignupCard() {
                 body: JSON.stringify(inputs),
             });
 
-            console.log(res.cookie)
-
             const data = await res.json();
 
             if (data.error) {
@@ -45,6 +42,8 @@ export default function SignupCard() {
 
                 return;
             }
+
+
 
             localStorage.setItem("user-threads", JSON.stringify(data));
             setUser(data);
@@ -64,7 +63,7 @@ export default function SignupCard() {
             <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                 <Stack align={"center"}>
                     <Heading fontSize={"4xl"} textAlign={"center"} m={"0 0 25px 0"}>
-                        Регистрация
+                        Зарегистрироваться как преподаватель
                     </Heading>
                 </Stack>
                 <Box
@@ -167,7 +166,7 @@ export default function SignupCard() {
                                     bg: "blue.500",
                                 }}
                             >
-                                Войти
+                                Зарегистрироваться
                             </Button>
                         </Stack>
                         <Stack pt={6}>
