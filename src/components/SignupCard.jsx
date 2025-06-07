@@ -11,6 +11,7 @@ import {useSetRecoilState} from "recoil";
 import authScreenAtom from "../atoms/authAtom.js";
 import useShowToast from "../hooks/useShowToast.js";
 import userAtom from "../atoms/userAtom.js";
+import { log } from "util";
 
 export default function SignupCard() {
     const [showPassword, setShowPassword] = useState(false);
@@ -32,20 +33,19 @@ export default function SignupCard() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(inputs),
+                body: JSON.stringify({...inputs, role: "teacher"}),
             });
 
             const data = await res.json();
-
+            
             if (data.error) {
                 showToast("Error", data.error, "error");
 
                 return;
             }
 
-
-
             localStorage.setItem("user-threads", JSON.stringify(data));
+           console.log(data)
             setUser(data);
         } catch (error) {
             showToast("Error", error, "error");

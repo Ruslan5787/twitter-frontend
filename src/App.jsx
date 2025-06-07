@@ -13,6 +13,7 @@ import LogoutButton from "./components/LogoutButton.jsx";
 import UpdateProfilePage from "./pages/UpdateProfilePage.jsx";
 import CreatePost from "./components/CreatePost.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
+import AdministrateGroupsPage from "./pages/AdministrateGroupsPage.jsx";
 import SearchUsersPage from "./pages/SearchUsersPage.jsx";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/:username/post/:pid" element={<PostPage/>}/>
                 <Route path="/chat" element={<ChatPage/>}/>
                 <Route path="/chat/:recipientId" element={<ChatPage/>}/>
+                <Route path="/groups" element={<AdministrateGroupsPage />}/>
             </Routes>
 
             {user && <LogoutButton/>}
