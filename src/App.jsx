@@ -15,6 +15,8 @@ import CreatePost from "./components/CreatePost.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import AdministrateGroupsPage from "./pages/AdministrateGroupsPage.jsx";
 import SearchUsersPage from "./pages/SearchUsersPage.jsx";
+import {SchoolPage} from "./pages/SchoolPage.jsx";
+
 
 function App() {
     const user = useRecoilValue(userAtom);
@@ -34,6 +36,7 @@ function App() {
                 <Route path="/chat" element={<ChatPage/>}/>
                 <Route path="/chat/:recipientId" element={<ChatPage/>}/>
                 <Route path="/groups" element={<AdministrateGroupsPage />}/>
+                <Route path="/school/:id" element={<SchoolPage />}/>
             </Routes>
 
             {user && <LogoutButton/>}

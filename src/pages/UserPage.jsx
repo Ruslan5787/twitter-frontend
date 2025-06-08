@@ -12,7 +12,6 @@ import {
     Image,
     Input,
     Portal,
-    Spinner,
     Text,
     Textarea,
     useDialog
@@ -113,7 +112,7 @@ export const UserPage = ({isPostCreated, setIsPostCreated}) => {
 
     if (!user && isLoading) {
         return <Flex m={"20px 0 0 0"} justifyContent={"center"}>
-            <Spinner></Spinner>
+            {/*<Spinner></Spinner>*/}
         </Flex>
     }
 

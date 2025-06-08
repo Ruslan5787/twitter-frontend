@@ -12,12 +12,14 @@ import authScreenAtom from "../atoms/authAtom.js";
 import useShowToast from "../hooks/useShowToast.js";
 import userAtom from "../atoms/userAtom.js";
 import { log } from "util";
+import {useNavigate} from "react-router-dom";
 
 export default function SignupCard() {
     const [showPassword, setShowPassword] = useState(false);
     const setAuthScreenState = useSetRecoilState(authScreenAtom);
     const showToast = useShowToast();
     const setUser = useSetRecoilState(userAtom);
+    const navigate = useNavigate();
 
     const [inputs, setInputs] = useState({
         name: "ruslan",
@@ -25,6 +27,7 @@ export default function SignupCard() {
         email: "ruslan@gmail.com",
         password: "1",
     });
+
 
     const handleSignup = async () => {
         try {
@@ -45,7 +48,7 @@ export default function SignupCard() {
             }
 
             localStorage.setItem("user-threads", JSON.stringify(data));
-           console.log(data)
+            navigate("/")
             setUser(data);
         } catch (error) {
             showToast("Error", error, "error");

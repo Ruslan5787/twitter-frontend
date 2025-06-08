@@ -6,5 +6,6 @@ export const socket = io("http://localhost:27017", {
         origin: "*",
         methods: ["GET", "POST"],
         allowedHeaders: ['Access-Control-Allow-Origin'],
-    }
+    },
+    autoConnect: false,
 })
