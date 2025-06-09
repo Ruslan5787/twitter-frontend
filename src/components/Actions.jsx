@@ -1,4 +1,4 @@
-import {Flex, Portal, Dialog, Button, CloseButton, useDisclosure, useDialog, Input } from '@chakra-ui/react';
+import {Button, CloseButton, Dialog, Flex, Input, Portal, useDialog} from '@chakra-ui/react';
 import React, {useState} from 'react'
 import useShowToast from "../hooks/useShowToast.js";
 
@@ -81,7 +81,7 @@ export const Actions = ({liked, setLiked, postId, countLikes, setCountLikes, set
 
             <Dialog.RootProvider value={dialog} closeOnInteractOutside>
                 <Portal>
-                    <Dialog.Backdrop />
+                    <Dialog.Backdrop/>
                     <Dialog.Positioner>
                         <Dialog.Content>
                             <Dialog.Header>

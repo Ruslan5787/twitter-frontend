@@ -1,8 +1,7 @@
 import {FormControl, FormLabel} from "@chakra-ui/form-control";
-import {Button,Input, Stack,} from "@chakra-ui/react";
+import {Button, CloseButton, Dialog, Input, Portal, Stack, useDialog,} from "@chakra-ui/react";
 import React, {useState} from "react";
 import {useColorMode} from "./ui/color-mode.jsx";
-import {CloseButton, Dialog, Image, Portal, useDialog} from "@chakra-ui/react";
 import {IoMdAddCircleOutline} from "react-icons/io";
 import useShowToast from "../hooks/useShowToast.js";
 

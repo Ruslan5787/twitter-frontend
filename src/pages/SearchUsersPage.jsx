@@ -53,12 +53,12 @@ const SearchUsersPage = () => {
                 {users.map((user) => (<List.Item mb={"10px"} key={user._id} listStyle={"none"}>
                     <Link to={`/${user.username}`}>
                         <Flex alignItems={"center"}>
-                        <Avatar.Root mr={5}>
-                            <Avatar.Fallback name={user.name}/>
-                            <Avatar.Image src={user.profilePic}/>
-                        </Avatar.Root>
-                        <Text>{user.username}</Text>
-                    </Flex>
+                            <Avatar.Root mr={5}>
+                                <Avatar.Fallback name={user.name}/>
+                                <Avatar.Image src={user.profilePic}/>
+                            </Avatar.Root>
+                            <Text>{user.username}</Text>
+                        </Flex>
                     </Link>
 
                 </List.Item>))}

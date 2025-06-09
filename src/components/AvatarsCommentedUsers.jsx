@@ -30,10 +30,10 @@ export const AvatarsCommentedUsers = ({replies, countCommentedUsers}) => {
         </AvatarGroup>)
     } else if (countCommentedUsers > 0) {
         return (<AvatarGroup gap="0" spaceX="-3px" size="xs" position={"relative"}>
-                <Avatar.Root key={replies[0]?._id} position={"absolute"} left={"-16px"} top={"-9px"}>
-                    <Avatar.Fallback name={replies[0]?.username}/>
-                    <Avatar.Image src={replies[0]?.userProfilePic}/>
-                </Avatar.Root>
+            <Avatar.Root key={replies[0]?._id} position={"absolute"} left={"-16px"} top={"-9px"}>
+                <Avatar.Fallback name={replies[0]?.username}/>
+                <Avatar.Image src={replies[0]?.userProfilePic}/>
+            </Avatar.Root>
         </AvatarGroup>)
     }
 
