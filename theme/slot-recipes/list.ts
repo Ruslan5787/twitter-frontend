@@ -1,67 +1,67 @@
-import { defineSlotRecipe } from "@chakra-ui/react"
+import {defineSlotRecipe} from "@chakra-ui/react"
 
 export const listSlotRecipe = defineSlotRecipe({
-  className: "chakra-list",
-  slots: ["root", "item", "indicator"],
-  base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "var(--list-gap)",
-      "& :where(ul, ol)": {
-        marginTop: "var(--list-gap)",
-      },
-    },
-    item: {
-      whiteSpace: "normal",
-      display: "list-item",
-    },
-    indicator: {
-      marginEnd: "2",
-      minHeight: "1lh",
-      flexShrink: 0,
-      display: "inline-block",
-      verticalAlign: "middle",
-    },
-  },
-  variants: {
-    variant: {
-      marker: {
+    className: "chakra-list",
+    slots: ["root", "item", "indicator"],
+    base: {
         root: {
-          listStyle: "revert",
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--list-gap)",
+            "& :where(ul, ol)": {
+                marginTop: "var(--list-gap)",
+            },
         },
         item: {
-          _marker: {
-            color: "fg.subtle",
-          },
+            whiteSpace: "normal",
+            display: "list-item",
         },
-      },
-      plain: {
-        item: {
-          alignItems: "flex-start",
-          display: "inline-flex",
+        indicator: {
+            marginEnd: "2",
+            minHeight: "1lh",
+            flexShrink: 0,
+            display: "inline-block",
+            verticalAlign: "middle",
         },
-      },
     },
-    align: {
-      center: {
-        item: {
-          alignItems: "center",
+    variants: {
+        variant: {
+            marker: {
+                root: {
+                    listStyle: "revert",
+                },
+                item: {
+                    _marker: {
+                        color: "fg.subtle",
+                    },
+                },
+            },
+            plain: {
+                item: {
+                    alignItems: "flex-start",
+                    display: "inline-flex",
+                },
+            },
         },
-      },
-      start: {
-        item: {
-          alignItems: "flex-start",
+        align: {
+            center: {
+                item: {
+                    alignItems: "center",
+                },
+            },
+            start: {
+                item: {
+                    alignItems: "flex-start",
+                },
+            },
+            end: {
+                item: {
+                    alignItems: "flex-end",
+                },
+            },
         },
-      },
-      end: {
-        item: {
-          alignItems: "flex-end",
-        },
-      },
     },
-  },
-  defaultVariants: {
-    variant: "marker",
-  },
+    defaultVariants: {
+        variant: "marker",
+    },
 })

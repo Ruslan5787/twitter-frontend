@@ -1,85 +1,85 @@
-import { defineSlotRecipe } from "@chakra-ui/react"
+import {defineSlotRecipe} from "@chakra-ui/react"
 
 export const emptyStateSlotRecipe = defineSlotRecipe({
-  slots: ["root", "content", "indicator", "title", "description"],
-  className: "chakra-empty-state",
-  base: {
-    root: {
-      width: "full",
-    },
-    content: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    indicator: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      color: "fg.subtle",
-      _icon: {
-        boxSize: "1em",
-      },
-    },
-    title: {
-      fontWeight: "semibold",
-    },
-    description: {
-      textStyle: "sm",
-      color: "fg.muted",
-    },
-  },
-  variants: {
-    size: {
-      sm: {
+    slots: ["root", "content", "indicator", "title", "description"],
+    className: "chakra-empty-state",
+    base: {
         root: {
-          px: "4",
-          py: "6",
-        },
-        title: {
-          textStyle: "md",
+            width: "full",
         },
         content: {
-          gap: "4",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
         },
         indicator: {
-          textStyle: "2xl",
-        },
-      },
-      md: {
-        root: {
-          px: "8",
-          py: "12",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "fg.subtle",
+            _icon: {
+                boxSize: "1em",
+            },
         },
         title: {
-          textStyle: "lg",
+            fontWeight: "semibold",
         },
-        content: {
-          gap: "6",
+        description: {
+            textStyle: "sm",
+            color: "fg.muted",
         },
-        indicator: {
-          textStyle: "4xl",
-        },
-      },
-      lg: {
-        root: {
-          px: "12",
-          py: "16",
-        },
-        title: {
-          textStyle: "xl",
-        },
-        content: {
-          gap: "8",
-        },
-        indicator: {
-          textStyle: "6xl",
-        },
-      },
     },
-  },
-  defaultVariants: {
-    size: "md",
-  },
+    variants: {
+        size: {
+            sm: {
+                root: {
+                    px: "4",
+                    py: "6",
+                },
+                title: {
+                    textStyle: "md",
+                },
+                content: {
+                    gap: "4",
+                },
+                indicator: {
+                    textStyle: "2xl",
+                },
+            },
+            md: {
+                root: {
+                    px: "8",
+                    py: "12",
+                },
+                title: {
+                    textStyle: "lg",
+                },
+                content: {
+                    gap: "6",
+                },
+                indicator: {
+                    textStyle: "4xl",
+                },
+            },
+            lg: {
+                root: {
+                    px: "12",
+                    py: "16",
+                },
+                title: {
+                    textStyle: "xl",
+                },
+                content: {
+                    gap: "8",
+                },
+                indicator: {
+                    textStyle: "6xl",
+                },
+            },
+        },
+    },
+    defaultVariants: {
+        size: "md",
+    },
 })

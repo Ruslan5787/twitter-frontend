@@ -1,4 +1,4 @@
-import {Box, Flex, Image, Text} from "@chakra-ui/react";
+import {Flex, Image} from "@chakra-ui/react";
 import {useColorMode} from "./ui/color-mode";
 import {FiMessageCircle} from "react-icons/fi";
 import React from "react";

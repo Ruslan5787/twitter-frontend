@@ -11,7 +11,6 @@ import {useSetRecoilState} from "recoil";
 import authScreenAtom from "../atoms/authAtom.js";
 import useShowToast from "../hooks/useShowToast.js";
 import userAtom from "../atoms/userAtom.js";
-import { log } from "util";
 import {useNavigate} from "react-router-dom";
 
 export default function SignupCard() {
@@ -40,7 +39,7 @@ export default function SignupCard() {
             });
 
             const data = await res.json();
-            
+
             if (data.error) {
                 showToast("Error", data.error, "error");
 

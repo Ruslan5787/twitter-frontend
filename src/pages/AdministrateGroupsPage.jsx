@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react"
-import {Box, Flex, Image, Text, Button} from "@chakra-ui/react";
-import CreateGroup from "../components/CreateGroup.jsx"
+import {Box, Flex, Text} from "@chakra-ui/react";
 import {CreateSchool} from "../components/CreateSchool.jsx"
 import useShowToast from "../hooks/useShowToast.js";
 import {Toaster} from "../components/ui/toaster.jsx";
-import {Link, Links} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const AdministrateGroupsPage = () => {
     const [schools, setSchools] = useState([]);

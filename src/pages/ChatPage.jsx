@@ -11,7 +11,6 @@ import {socket} from "../../socket.js";
 import {useRecoilValue} from "recoil";
 import userAtom from "../atoms/userAtom.js";
 import {UsersListForCorrespondence} from "../components/UsersListForCorrespondence.jsx";
-import {ref} from "process";
 
 const ChatPage = () => {
     const showToaster = useShowToast();

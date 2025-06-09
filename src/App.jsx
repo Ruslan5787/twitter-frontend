@@ -35,8 +35,8 @@ function App() {
                 <Route path="/:username/post/:pid" element={<PostPage/>}/>
                 <Route path="/chat" element={<ChatPage/>}/>
                 <Route path="/chat/:recipientId" element={<ChatPage/>}/>
-                <Route path="/groups" element={<AdministrateGroupsPage />}/>
-                <Route path="/school/:id" element={<SchoolPage />}/>
+                <Route path="/groups" element={<AdministrateGroupsPage/>}/>
+                <Route path="/school/:id" element={<SchoolPage/>}/>
             </Routes>
 
             {user && <LogoutButton/>}
