@@ -18,7 +18,6 @@ const CreateGroup = ({schoolId, setGroups}) => {
     const dialog = useDialog({open: isOpen, setOpenChange: setIsOpen});
     const [groupTitle, setGroupTitle] = useState("");
     const user = useRecoilValue(userAtom)
-
     const contentRef = useRef(null)
 
     const handleCreateGroup = async () => {
@@ -42,7 +41,6 @@ const CreateGroup = ({schoolId, setGroups}) => {
             showToast("Уведомления", "Группа создана успешно", "success");
             setIsLoading(false);
             setGroupTitle("")
-            setGroups((prev) => [...prev])
         } catch (error) {
             showToast("Ошибка", error.message, "error");
             setIsLoading(false);

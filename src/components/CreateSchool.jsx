@@ -21,7 +21,7 @@ export const CreateSchool = ({setSchools}) => {
 
     const handleCreateSchool = async () => {
         try {
-            const res = await fetch("/api/school/", {
+            const res = await fetch("/api/schools/", {
                 method: "POST", headers: {
                     "Content-Type": "application/json",
                 }, body: JSON.stringify(inputs),
@@ -35,7 +35,7 @@ export const CreateSchool = ({setSchools}) => {
                 return;
             }
 
-            setSchools(data);
+            setSchools(prev => [...prev, data]);
             setIsOpen(false)
             setInputs({
                 title: "", email: "", inn: "",

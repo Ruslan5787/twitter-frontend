@@ -10,7 +10,6 @@ const AdministrateGroupsPage = () => {
     const [schools, setSchools] = useState([]);
     const showToast = useShowToast();
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,7 +32,6 @@ const AdministrateGroupsPage = () => {
             }
         }
 
-        console.log(schools)
         fetchData();
     }, [setSchools])
 
@@ -44,7 +42,6 @@ const AdministrateGroupsPage = () => {
 
         <Flex gap={5} mt={5}>
             {schools.length > 0 && schools.map((school) => {
-
                 return (
                     <Link display={"block"} to={`/school/${school._id}`} key={school._id}>
                         <Box background={"gray.400"} borderRadius={10} p={15}>
