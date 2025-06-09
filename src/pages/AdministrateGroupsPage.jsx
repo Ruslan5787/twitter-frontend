@@ -27,7 +27,7 @@ const AdministrateGroupsPage = () => {
                 setSchools(dataSchools)
             } catch (err) {
                 console.log(err.details)
-                showToast("Ошибка", "Произошла ошибка при получении списка учебных заведений", 'error')
+                // showToast("Ошибка", "Произошла ошибка при получении списка учебных заведений", 'error')
             }
         }
 

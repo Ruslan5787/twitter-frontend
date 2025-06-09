@@ -29,7 +29,8 @@ const HomePage = () => {
     return (
         <div>
             <Toaster/>
-            {posts?.map((post) => (
+            {posts.length > 0 &&
+            posts?.map((post) => (
                 <Post key={post._id} postInfo={post} postedBy={post.postedBy}/>
             ))}
         </div>

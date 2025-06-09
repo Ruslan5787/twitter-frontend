@@ -20,6 +20,7 @@ export const CreateSchool = ({setSchools}) => {
 
     const handleCreateSchool = async () => {
         try {
+
             const res = await fetch("/api/schools/", {
                 method: "POST", headers: {
                     "Content-Type": "application/json",
